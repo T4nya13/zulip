@@ -16,8 +16,8 @@ import * as dialog_widget from "./dialog_widget.ts";
 import * as dropdown_widget from "./dropdown_widget.ts";
 import {$t, $t_html} from "./i18n.ts";
 import * as integration_url_modal from "./integration_url_modal.ts";
-import type {ListWidget as ListWidgetType} from "./list_widget.ts";
 import * as ListWidget from "./list_widget.ts";
+import type {ListWidget as ListWidgetType} from "./list_widget.ts";
 import * as loading from "./loading.ts";
 import {page_params} from "./page_params.ts";
 import * as people from "./people.ts";
@@ -26,12 +26,11 @@ import * as settings_config from "./settings_config.ts";
 import * as settings_data from "./settings_data.ts";
 import * as settings_users from "./settings_users.ts";
 import {current_user, realm} from "./state_data.ts";
+import * as timerender from "./timerender.ts";
 import type {HTMLSelectOneElement} from "./types.ts";
 import * as ui_report from "./ui_report.ts";
 import type {UploadWidget} from "./upload_widget.ts";
 import * as user_deactivation_ui from "./user_deactivation_ui.ts";
-import * as user_sort from "./user_sort.ts";
-import * as util from "./util.ts";
 
 const GENERIC_BOT_TYPE = 1;
 const INCOMING_WEBHOOK_BOT_TYPE = 2;
@@ -57,7 +56,7 @@ type BotInfo = {
     user_role_text: string | undefined;
     img_src: string;
     bot_type: string | undefined;
-    bot_owner_full_name: string;
+    bot_owner: string;
     no_owner: boolean;
     is_current_user: boolean;
     can_modify: boolean;
@@ -66,6 +65,7 @@ type BotInfo = {
     display_email: string;
     show_download_zuliprc_button: boolean;
     show_generate_integration_url_button: boolean;
+    date_joined: string;
 } & (
     | {
           bot_owner_id: number;
@@ -114,32 +114,6 @@ const your_bots_section: BotSettingsSection = {
 function is_local_part(value: string): boolean {
     // Adapted from Django's EmailValidator
     return /^[\w!#$%&'*+/=?^`{|}~-]+(\.[\w!#$%&'*+/=?^`{|}~-]+)*$/i.test(value);
-}
-
-function sort_bot_email(a: BotInfo, b: BotInfo): number {
-    function email(bot: BotInfo): string {
-        return (bot.display_email ?? "").toLowerCase();
-    }
-
-    return util.compare_a_b(email(a), email(b));
-}
-
-function sort_bot_owner(a: BotInfo, b: BotInfo): number {
-    // Always show bots without owner at bottom
-    if (a.no_owner && b.no_owner) {
-        return 0;
-    }
-    if (a.no_owner) {
-        return 1;
-    }
-    if (b.no_owner) {
-        return -1;
-    }
-
-    return util.compare_a_b(
-        a.bot_owner_full_name.toLowerCase(),
-        b.bot_owner_full_name.toLocaleLowerCase(),
-    );
 }
 
 export function generate_botserverrc_content(
@@ -401,16 +375,16 @@ function bot_info(bot_user_id: number): BotInfo {
         full_name: bot_user.full_name,
         user_role_text: people.get_user_type(bot_user_id),
         img_src: people.small_avatar_url_for_person(bot_user),
-        // Convert bot type id to string for viewing to the users.
         bot_type: settings_data.bot_type_id_to_string(bot_user.bot_type),
-        bot_owner_full_name: owner_full_name ?? $t({defaultMessage: "No owner"}),
+        // RENAME THIS KEY TO MATCH THE TEMPLATE'S data-sort="bot_owner"
+        bot_owner: owner_full_name ?? $t({defaultMessage: "No owner"}),
         no_owner: !owner_full_name,
         is_current_user: false,
         can_modify: can_modify_bot,
         cannot_deactivate: (bot_user.is_system_bot ?? false) || !can_modify_bot,
         cannot_edit: (bot_user.is_system_bot ?? false) || !can_modify_bot,
-        // It's always safe to show the real email addresses for bot users
         display_email: bot_user.email,
+        date_joined: timerender.get_full_datetime(new Date(bot_user.date_joined)),
         ...(owner_id
             ? {
                   bot_owner_id: owner_id,
@@ -606,13 +580,18 @@ function create_all_bots_table(): void {
         $parent_container: $("#admin-all-bots-list").expectOne(),
         init_sort: "full_name_alphabetic",
         sort_fields: {
-            email: sort_bot_email,
-            bot_owner: sort_bot_owner,
-            role: user_sort.sort_role,
-            ...ListWidget.generic_sort_functions("alphabetic", ["full_name", "bot_type"]),
+            date_joined: (a: BotInfo, b: BotInfo): number => a.user_id - b.user_id,
+            role: (a: BotInfo, b: BotInfo): number => a.role - b.role,
+            ...ListWidget.generic_sort_functions("alphabetic", [
+                "full_name",
+                "bot_type",
+                "display_email",
+                "bot_owner",
+            ]),
         },
         $simplebar_container: $("#admin-all-bots-list .progressive-table-wrapper"),
     });
+
     settings_users.set_text_search_value($all_bots_table, all_bots_section.filters.text_search);
 
     loading.destroy_indicator($("#admin_page_all_bots_loading_indicator"));
@@ -644,10 +623,14 @@ function create_your_bots_table(): void {
         $parent_container: $("#admin-your-bots-list").expectOne(),
         init_sort: "full_name_alphabetic",
         sort_fields: {
-            email: sort_bot_email,
-            bot_owner: sort_bot_owner,
-            role: user_sort.sort_role,
-            ...ListWidget.generic_sort_functions("alphabetic", ["full_name", "bot_type"]),
+            date_joined: (a: BotInfo, b: BotInfo): number => a.user_id - b.user_id,
+            role: (a: BotInfo, b: BotInfo): number => a.role - b.role,
+            ...ListWidget.generic_sort_functions("alphabetic", [
+                "full_name",
+                "bot_type",
+                "display_email",
+                "bot_owner",
+            ]),
         },
         $simplebar_container: $("#admin-your-bots-list .progressive-table-wrapper"),
     });
