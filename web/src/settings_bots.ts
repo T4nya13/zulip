@@ -54,6 +54,7 @@ type BotInfo = {
     is_active: boolean;
     user_id: number;
     full_name: string;
+    date_joined: string;
     user_role_text: string | undefined;
     img_src: string;
     bot_type: string | undefined;
