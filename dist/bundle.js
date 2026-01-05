@@ -8527,7 +8527,10 @@
   });
 
   // web/src/showcase_mock.ts
+  window.DEVELOPMENT = false;
+  window.ZULIP_VERSION = "showcase-demo";
   var blueslip_stacktrace = () => "Showcase stacktrace placeholder";
+  window.blueslip_stacktrace_default = blueslip_stacktrace;
   window.blueslip = {
     error: (msg, details) => console.error("Blueslip Error:", msg, details),
     warn: (msg) => console.warn("Blueslip Warn:", msg),
@@ -8537,12 +8540,11 @@
   };
   window.page_params = {
     is_admin: false,
-    realm_uri: "http://localhost:9991",
+    realm_uri: "https://zulip.com",
     full_name: "Showcase User",
     user_id: 1,
     realm_poll_widgets_enabled: true
   };
-  window.blueslip_stacktrace_default = blueslip_stacktrace;
   var blueslip = window.blueslip;
   var page_params = window.page_params;
 
