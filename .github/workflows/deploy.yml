@@ -27,10 +27,9 @@ jobs:
           --loader:.png=dataurl \
           --platform=browser \
           --format=iife \
-          --global-name=ZulipShowcase \
-          --external:jquery \
           --define:global=window \
           --define:process.env.NODE_ENV='"production"' \
+          --alias:jquery=./web/src/jquery-shim.js \
           --log-level=error
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
