@@ -26,8 +26,8 @@ jobs:
           --loader:.svg=dataurl \
           --loader:.png=dataurl \
           --platform=browser \
+          --format=iife \
           --external:jquery \
-          --external:i18n \
           --define:global=window \
           --define:process.env.NODE_ENV='"production"' \
           --log-level=error
