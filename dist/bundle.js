@@ -8544,6 +8544,7 @@
     full_name: "Showcase User",
     user_id: 1,
     realm_poll_widgets_enabled: true
+    // This enables the "Add Option" button
   };
   var blueslip = window.blueslip;
   var page_params = window.page_params;
