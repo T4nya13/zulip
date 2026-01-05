@@ -49,7 +49,7 @@ type TagSpec = {
 };
 
 type BlockSpec = {
-    elements: (Element | Block)[];
+    elements: Element[];
     source_format?: SourceFormat;
 };
 
@@ -498,11 +498,7 @@ export class Block {
 
     constructor(info: BlockSpec) {
         for (const member of info.elements) {
-            if (member instanceof Block) {
-                this.elements.push(...member.elements);
-            } else {
-                this.elements.push(member);
-            }
+            this.elements.push(member);
         }
     }
 
