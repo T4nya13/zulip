@@ -1,4 +1,4 @@
-// 1. Tell TypeScript about the globals
+// 1. Tell TypeScript about the Zulip globals
 declare global {
     interface Window {
         DEVELOPMENT: boolean;
@@ -9,11 +9,12 @@ declare global {
     }
 }
 
-// 2. Define the Environment Flags
-window.DEVELOPMENT = false; // Set to false for the production build
+// 2. Define Environment Flags (CRITICAL)
+// Setting DEVELOPMENT to false stops the ReferenceError crash
+window.DEVELOPMENT = false; 
 window.ZULIP_VERSION = "showcase-demo";
 
-// 3. Define the stacktrace function
+// 3. Define the stacktrace function for the error logger
 const blueslip_stacktrace = () => "Showcase stacktrace placeholder";
 window.blueslip_stacktrace_default = blueslip_stacktrace;
 
@@ -31,7 +32,7 @@ window.page_params = {
     realm_uri: "https://zulip.com",
     full_name: "Showcase User",
     user_id: 1,
-    realm_poll_widgets_enabled: true
+    realm_poll_widgets_enabled: true // This enables the "Add Option" button
 };
 
 // 5. Exports for the bundler
