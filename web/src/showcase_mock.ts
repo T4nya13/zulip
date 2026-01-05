@@ -1,22 +1,11 @@
-// This file mocks global variables that Zulip expects to exist.
-// It prevents "ReferenceError" during the standalone bundle process.
-
-(window as any).page_params = {
-    is_admin: false,
-    user_id: 9, // Alice
-    development_environment: true,
-};
-
-(window as any).blueslip = {
-    warn: (msg: string) => console.warn("Blueslip Mock:", msg),
-    error: (msg: string) => console.error("Blueslip Mock:", msg),
-};
-
-(window as any).DEVELOPMENT = true;
-(window as any).ZULIP_VERSION = "GSoC-Showcase";
-
-// Fix for the blueslip stacktrace crash
-export const blueslip = {
+declare global {
+    interface Window {
+        blueslip: any;
+        page_params: any;
+    }
+}
+// 1. Mock the global Zulip objects
+window.blueslip = {
     error: (msg: string, details?: unknown) => console.error("Blueslip Error:", msg, details),
     warn: (msg: string) => console.warn("Blueslip Warn:", msg),
     info: (msg: string) => console.log("Blueslip Info:", msg),
@@ -24,7 +13,19 @@ export const blueslip = {
     exception: (e: Error) => console.error("Blueslip Exception:", e),
 };
 
-// Mock a default export for the stacktrace utility
-export default function blueslip_stacktrace() {
-    return "Showcase stacktrace placeholder";
-}
+window.page_params = {
+    is_admin: false,
+    realm_uri: "http://localhost:9991",
+    full_name: "Showcase User",
+    user_id: 1,
+    realm_poll_widgets_enabled: true
+};
+
+// 2. Mock the default export for the stacktrace utility
+// This prevents the "blueslip_stacktrace_default is not a function" error
+const blueslip_stacktrace = () => "Showcase stacktrace placeholder";
+export default blueslip_stacktrace;
+
+// 3. Export the blueslip object for named imports
+export const blueslip = window.blueslip;
+export const page_params = window.page_params;
