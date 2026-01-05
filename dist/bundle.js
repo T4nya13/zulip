@@ -8527,6 +8527,7 @@
   });
 
   // web/src/showcase_mock.ts
+  var blueslip_stacktrace = () => "Showcase stacktrace placeholder";
   window.blueslip = {
     error: (msg, details) => console.error("Blueslip Error:", msg, details),
     warn: (msg) => console.warn("Blueslip Warn:", msg),
@@ -8541,6 +8542,7 @@
     user_id: 1,
     realm_poll_widgets_enabled: true
   };
+  window.blueslip_stacktrace_default = blueslip_stacktrace;
   var blueslip = window.blueslip;
   var page_params = window.page_params;
 
