@@ -14,3 +14,17 @@
 
 (window as any).DEVELOPMENT = true;
 (window as any).ZULIP_VERSION = "GSoC-Showcase";
+
+// Fix for the blueslip stacktrace crash
+export const blueslip = {
+    error: (msg: string, details?: unknown) => console.error("Blueslip Error:", msg, details),
+    warn: (msg: string) => console.warn("Blueslip Warn:", msg),
+    info: (msg: string) => console.log("Blueslip Info:", msg),
+    debug: (msg: string) => console.log("Blueslip Debug:", msg),
+    exception: (e: Error) => console.error("Blueslip Exception:", e),
+};
+
+// Mock a default export for the stacktrace utility
+export default function blueslip_stacktrace() {
+    return "Showcase stacktrace placeholder";
+}
