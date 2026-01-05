@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import "./showcase_mock";
 
 import * as hbs_bridge from "./hbs_bridge.ts";
 import * as pure_dom from "./pure_dom.ts";
@@ -59,7 +60,6 @@ export function initialize(): void {
     const virtual_server = {
         clients: [] as ((events: any[]) => void)[],
         broadcast(data: any) {
-            console.log("Broadcasting action:", data);
             
             // FIX: Use ID 9 (Desdemona/Current User) instead of 101
             // Zulip's people.ts knows who User 9 is.
