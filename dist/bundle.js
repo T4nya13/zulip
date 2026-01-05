@@ -8527,8 +8527,6 @@
   });
 
   // web/src/showcase_mock.ts
-  window.DEVELOPMENT = false;
-  window.ZULIP_VERSION = "showcase-demo";
   var blueslip_stacktrace = () => "Showcase stacktrace placeholder";
   window.blueslip_stacktrace_default = blueslip_stacktrace;
   window.blueslip = {
@@ -8538,16 +8536,6 @@
     debug: (msg) => console.log("Blueslip Debug:", msg),
     exception: (e5) => console.error("Blueslip Exception:", e5)
   };
-  window.page_params = {
-    is_admin: false,
-    realm_uri: "https://zulip.com",
-    full_name: "Showcase User",
-    user_id: 1,
-    realm_poll_widgets_enabled: true
-    // This enables the "Add Option" button
-  };
-  var blueslip = window.blueslip;
-  var page_params = window.page_params;
 
   // web/src/html.ts
   var void_elements = /* @__PURE__ */ new Set([
@@ -26334,7 +26322,7 @@ Error:`,
     page_params_div.remove();
     return params;
   }
-  var page_params2 = page_params_schema.parse(JSON.parse(take_params()));
+  var page_params = page_params_schema.parse(JSON.parse(take_params()));
   var t2 = performance.now();
   var page_params_parse_time = t2 - t1;
 
@@ -26342,9 +26330,9 @@ Error:`,
   var cache = createIntlCache();
   var intl = createIntl(
     {
-      locale: page_params2.request_language,
+      locale: page_params.request_language,
       defaultLocale: "en",
-      messages: "translation_data" in page_params2 ? page_params2.translation_data : {},
+      messages: "translation_data" in page_params ? page_params.translation_data : {},
       /* istanbul ignore next */
       onError(error4) {
         if (error4.code !== IntlErrorCode.MISSING_TRANSLATION) {
@@ -27953,12 +27941,12 @@ Error:`,
 
   // web/src/page_params.ts
   var import_minimalistic_assert3 = __toESM(require_minimalistic_assert(), 1);
-  (0, import_minimalistic_assert3.default)(page_params2.page_type === "home");
-  var page_params3 = page_params2;
+  (0, import_minimalistic_assert3.default)(page_params.page_type === "home");
+  var page_params2 = page_params;
 
   // web/src/settings_data.ts
   function user_has_permission_for_group_setting(setting_value, setting_name, setting_type, user = current_user) {
-    if (page_params3.is_spectator) {
+    if (page_params2.is_spectator) {
       return false;
     }
     const settings_config = get_group_permission_setting_config(
@@ -27972,7 +27960,7 @@ Error:`,
     return is_user_in_setting_group(setting_value, user.user_id);
   }
   function user_can_access_all_other_users() {
-    if (page_params3.is_spectator) {
+    if (page_params2.is_spectator) {
       return true;
     }
     if (!current_user.is_guest) {
@@ -30795,7 +30783,7 @@ Error:`,
       return true;
     }
     const stream_name = get_stream_name_from_id(message.stream_id);
-    if (page_params3.narrow_stream !== void 0 && stream_name.toLowerCase() === page_params3.narrow_stream.toLowerCase()) {
+    if (page_params2.narrow_stream !== void 0 && stream_name.toLowerCase() === page_params2.narrow_stream.toLowerCase()) {
       return true;
     }
     return is_topic_visible_in_home(message.stream_id, message.topic);
@@ -31390,7 +31378,7 @@ Error:`,
     static describe_channels_operator(negated, operand) {
       const possible_prefix = negated ? "exclude " : "";
       (0, import_minimalistic_assert12.default)(channels_operands.has(operand));
-      if ((page_params3.is_spectator || current_user.is_guest) && operand === "public") {
+      if ((page_params2.is_spectator || current_user.is_guest) && operand === "public") {
         return possible_prefix + "all public channels that you can view";
       }
       switch (operand) {
@@ -31507,10 +31495,10 @@ Error:`,
       const safe_to_return = this._terms.filter(
         // Filter out the embedded narrow (if any).
         (term) => {
-          if (page_params3.narrow_stream === void 0 || term.operator !== "channel") {
+          if (page_params2.narrow_stream === void 0 || term.operator !== "channel") {
             return true;
           }
-          const narrow_stream = get_sub_by_name(page_params3.narrow_stream);
+          const narrow_stream = get_sub_by_name(page_params2.narrow_stream);
           (0, import_minimalistic_assert12.default)(narrow_stream !== void 0);
           return Number.parseInt(term.operand, 10) === narrow_stream.stream_id;
         }
@@ -31880,7 +31868,7 @@ Error:`,
           case "in-all":
             return $t2({ defaultMessage: "All messages including muted channels" });
           case "channels-public":
-            if (page_params3.is_spectator || current_user.is_guest) {
+            if (page_params2.is_spectator || current_user.is_guest) {
               return $t2({
                 defaultMessage: "Messages in all public channels that you can view"
               });

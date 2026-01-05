@@ -13,15 +13,12 @@
     </style>
 </head>
 <body>
-    <script id="page-params" type="application/json">
-        {
-            "is_admin": false,
-            "realm_uri": "http://localhost:9991",
-            "full_name": "Showcase User",
-            "user_id": 1,
-            "realm_poll_widgets_enabled": true
-        }
+    <script>
+        window.DEVELOPMENT = false;
+        window.ZULIP_VERSION = "showcase-demo";
     </script>
+
+    <div id="page_params" data-params='{"is_admin": false, "realm_uri": "http://localhost:9991", "full_name": "Showcase User", "user_id": 1, "realm_poll_widgets_enabled": true}'></div>
 
     <div id="app">
         <div class="user-container">
