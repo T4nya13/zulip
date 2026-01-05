@@ -1,5 +1,5 @@
 "use strict";
-(() => {
+var ZulipShowcase = (() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -35,6 +35,7 @@
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
   // node_modules/stackframe/stackframe.js
   var require_stackframe = __commonJS({
@@ -8530,6 +8531,12 @@
         }
       })(exports);
     }
+  });
+
+  // web/src/showcase.ts
+  var showcase_exports = {};
+  __export(showcase_exports, {
+    initialize: () => initialize
   });
 
   // web/src/showcase_mock.ts
@@ -33324,6 +33331,7 @@ Error:`,
     setup_user("#alice-view");
     setup_user("#bob-view");
   }
+  return __toCommonJS(showcase_exports);
 })();
 /*! Bundled license information:
 
