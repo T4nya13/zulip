@@ -19,16 +19,13 @@ run_test("trusted_if_else_string", () => {
         const spec = h.trusted_if_else_string({
             bool: h.bool_var({
                 label: "some_bool",
-                b: b,
+                b,
             }),
             yes_val: h.trusted_simple_string("yes"),
             no_val: h.trusted_simple_string("no"),
         });
         assert.equal(spec.render_val(), expected_val);
-        assert.equal(
-            spec.to_source(),
-            `{{#if some_bool}}yes{{else}}no{{/if}}`,
-        );
+        assert.equal(spec.to_source(), `{{#if some_bool}}yes{{else}}no{{/if}}`);
     }
     test(true, "yes");
     test(false, "no");

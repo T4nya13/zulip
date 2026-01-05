@@ -81,6 +81,12 @@ type PartialSpec = {
     custom_context?: string;
 };
 
+function as_raw_html(frag: DocumentFragment): string {
+    const div = document.createElement("div");
+    div.append(frag);
+    return div.innerHTML;
+}
+
 function get_class_source(c: ClassString): string {
     if (typeof c === "string") {
         return c;
@@ -521,10 +527,7 @@ export class Block {
     }
 
     as_raw_html(): string {
-        const div = document.createElement("div");
-        const frag = this.to_dom();
-        div.append(frag);
-        return div.innerHTML;
+        return as_raw_html(this.to_dom());
     }
 }
 
@@ -559,10 +562,7 @@ export class SimpleEach {
     }
 
     as_raw_html(): string {
-        const div = document.createElement("div");
-        const frag = this.to_dom();
-        div.append(frag);
-        return div.innerHTML;
+        return as_raw_html(this.to_dom());
     }
 }
 
