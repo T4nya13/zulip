@@ -17,7 +17,15 @@ jobs:
       - name: Install Deps
         run: npm install
       - name: Bundle Showcase
-        run: npx esbuild web/src/showcase.ts --bundle --outfile=dist/bundle.js --loader:.ts=ts --platform=browser
+        run: |
+          npx esbuild web/src/showcase.ts \
+          --bundle \
+          --outfile=dist/bundle.js \
+          --loader:.ts=ts \
+          --loader:.hbs=text \
+          --platform=browser \
+          --define:process.env.NODE_ENV='"production"' \
+          --log-level=error
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
