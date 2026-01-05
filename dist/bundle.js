@@ -1,18 +1,12 @@
 "use strict";
-var ZulipShowcase = (() => {
+(() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __require = /* @__PURE__ */ ((x3) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x3, {
-    get: (a5, b3) => (typeof require !== "undefined" ? require : a5)[b3]
-  }) : x3)(function(x3) {
-    if (typeof require !== "undefined") return require.apply(this, arguments);
-    throw Error('Dynamic require of "' + x3 + '" is not supported');
-  });
-  var __commonJS = (cb, mod) => function __require2() {
+  var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
   var __export = (target, all2) => {
@@ -35,7 +29,6 @@ var ZulipShowcase = (() => {
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
-  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
   // node_modules/stackframe/stackframe.js
   var require_stackframe = __commonJS({
@@ -8327,7 +8320,7 @@ var ZulipShowcase = (() => {
   // node_modules/blueimp-md5/js/md5.js
   var require_md5 = __commonJS({
     "node_modules/blueimp-md5/js/md5.js"(exports, module2) {
-      (function($26) {
+      (function($3) {
         "use strict";
         function safeAdd(x3, y3) {
           var lsw = (x3 & 65535) + (y3 & 65535);
@@ -8527,16 +8520,10 @@ var ZulipShowcase = (() => {
         } else if (typeof module2 === "object" && module2.exports) {
           module2.exports = md52;
         } else {
-          $26.md5 = md52;
+          $3.md5 = md52;
         }
       })(exports);
     }
-  });
-
-  // web/src/showcase.ts
-  var showcase_exports = {};
-  __export(showcase_exports, {
-    initialize: () => initialize
   });
 
   // web/src/showcase_mock.ts
@@ -8991,8 +8978,8 @@ var ZulipShowcase = (() => {
     return block({ elements: [widget()] });
   }
 
-  // web/src/poll_widget.ts
-  var import_jquery23 = __toESM(__require("jquery"), 1);
+  // web/src/jquery-shim.js
+  var jquery_shim_default = window.jQuery;
 
   // node_modules/zod/v4/core/core.js
   var NEVER = Object.freeze({
@@ -21131,12 +21118,8 @@ Error:`,
     return true;
   }
 
-  // web/src/blueslip.ts
-  var import_jquery2 = __toESM(__require("jquery"), 1);
-
   // web/src/blueslip_stacktrace.ts
   var import_error_stack_parser = __toESM(require_error_stack_parser(), 1);
-  var import_jquery = __toESM(__require("jquery"), 1);
   var import_stacktrace_gps = __toESM(require_stacktrace_gps(), 1);
 
   // web/templates/blueslip_stacktrace.hbs
@@ -21250,8 +21233,8 @@ Error:`,
       });
       ex = ex.cause;
     } while (ex !== void 0 && ex !== null);
-    const $alert = (0, import_jquery.default)("<div>").addClass("stacktrace").html(blueslip_stacktrace_default({ errors }));
-    (0, import_jquery.default)(".blueslip-error-container").append($alert);
+    const $alert = jquery_shim_default("<div>").addClass("stacktrace").html(blueslip_stacktrace_default({ errors }));
+    jquery_shim_default(".blueslip-error-container").append($alert);
     $alert.addClass("show");
     $alert[0]?.scrollIntoView({ behavior: "smooth" });
   }
@@ -21314,24 +21297,24 @@ Error:`,
     }
   }
   if (DEVELOPMENT) {
-    (0, import_jquery2.default)(window).on("error", (event) => {
+    jquery_shim_default(window).on("error", (event) => {
       const { originalEvent } = event;
       if (originalEvent instanceof ErrorEvent) {
         void display_stacktrace(originalEvent.error, originalEvent.message);
       }
     });
-    (0, import_jquery2.default)(window).on("unhandledrejection", (event) => {
+    jquery_shim_default(window).on("unhandledrejection", (event) => {
       const { originalEvent } = event;
       if (originalEvent instanceof PromiseRejectionEvent) {
         void display_stacktrace(originalEvent.reason);
       }
     });
   }
-  (0, import_jquery2.default)(".blueslip-error-container").on("click", ".stackframe", function() {
-    (0, import_jquery2.default)(this).siblings(".code-context").toggle("fast");
+  jquery_shim_default(".blueslip-error-container").on("click", ".stackframe", function() {
+    jquery_shim_default(this).siblings(".code-context").toggle("fast");
   });
-  (0, import_jquery2.default)(".blueslip-error-container").on("click", ".exit", function() {
-    const $stacktrace = (0, import_jquery2.default)(this).closest(".stacktrace");
+  jquery_shim_default(".blueslip-error-container").on("click", ".exit", function() {
+    const $stacktrace = jquery_shim_default(this).closest(".stacktrace");
     $stacktrace.addClass("fade-out");
     setTimeout(() => {
       $stacktrace.removeClass("fade-out show");
@@ -26389,11 +26372,7 @@ Error:`,
     return !isComposing && event.key === "Enter";
   }
 
-  // web/src/message_lists.ts
-  var import_jquery22 = __toESM(__require("jquery"), 1);
-
   // web/src/inbox_util.ts
-  var import_jquery12 = __toESM(__require("jquery"), 1);
   var import_minimalistic_assert11 = __toESM(require_minimalistic_assert(), 1);
 
   // node_modules/colord/index.mjs
@@ -26493,7 +26472,7 @@ Error:`,
   var H = function(r5) {
     return (299 * r5.r + 587 * r5.g + 114 * r5.b) / 1e3 / 255;
   };
-  var $3 = function(r5, t6) {
+  var $ = function(r5, t6) {
     var n5 = c(r5);
     return { h: n5.h, s: n5.s, l: e(n5.l + 100 * t6, 0, 100), a: n5.a };
   };
@@ -26535,9 +26514,9 @@ Error:`,
     }, r5.prototype.grayscale = function() {
       return w(M(this.rgba, -1));
     }, r5.prototype.lighten = function(r6) {
-      return void 0 === r6 && (r6 = 0.1), w($3(this.rgba, r6));
+      return void 0 === r6 && (r6 = 0.1), w($(this.rgba, r6));
     }, r5.prototype.darken = function(r6) {
-      return void 0 === r6 && (r6 = 0.1), w($3(this.rgba, -r6));
+      return void 0 === r6 && (r6 = 0.1), w($(this.rgba, -r6));
     }, r5.prototype.rotate = function(r6) {
       return void 0 === r6 && (r6 = 15), this.hue(this.hue() + r6);
     }, r5.prototype.alpha = function(r6) {
@@ -26697,7 +26676,6 @@ Error:`,
   var import_minimalistic_assert10 = __toESM(require_minimalistic_assert(), 1);
 
   // web/src/settings_data.ts
-  var import_jquery3 = __toESM(__require("jquery"), 1);
   var import_minimalistic_assert4 = __toESM(require_minimalistic_assert(), 1);
 
   // web/src/group_permission_settings.ts
@@ -28006,7 +27984,6 @@ Error:`,
   var import_minimalistic_assert7 = __toESM(require_minimalistic_assert(), 1);
 
   // web/src/channel.ts
-  var import_jquery10 = __toESM(__require("jquery"), 1);
   var import_lodash3 = __toESM(require_lodash(), 1);
 
   // web/src/sentry.ts
@@ -28095,9 +28072,6 @@ Error:`,
     init({});
   }
 
-  // web/src/spectators.ts
-  var import_jquery9 = __toESM(__require("jquery"), 1);
-
   // web/src/hash_parser.ts
   function get_hash_category(hash) {
     return hash ? hash.replace(/^#/, "").split(/\//)[0] : "";
@@ -28159,7 +28133,6 @@ Error:`,
   }
 
   // web/src/ui_util.ts
-  var import_jquery4 = __toESM(__require("jquery"), 1);
   var import_minimalistic_assert5 = __toESM(require_minimalistic_assert(), 1);
 
   // web/src/browser_history.ts
@@ -28179,9 +28152,6 @@ Error:`,
     narrow_offset: optional(number2()),
     show_more_topics: optional(boolean2())
   });
-
-  // web/src/modals.ts
-  var import_jquery8 = __toESM(__require("jquery"), 1);
 
   // node_modules/micromodal/dist/micromodal.es.js
   function e4(e5, t6) {
@@ -28324,15 +28294,6 @@ Error:`,
 
   // web/src/modals.ts
   var import_minimalistic_assert6 = __toESM(require_minimalistic_assert(), 1);
-
-  // web/src/mouse_drag.ts
-  var import_jquery5 = __toESM(__require("jquery"), 1);
-
-  // web/src/overlay_util.ts
-  var import_jquery6 = __toESM(__require("jquery"), 1);
-
-  // web/src/overlays.ts
-  var import_jquery7 = __toESM(__require("jquery"), 1);
 
   // web/src/internal_url.ts
   var hashReplacements = /* @__PURE__ */ new Map([
@@ -28683,7 +28644,6 @@ Error:`,
   }
 
   // web/src/timerender.ts
-  var import_jquery11 = __toESM(__require("jquery"), 1);
   var display_time_zone = browser_time_zone();
   var display_tz = tz(display_time_zone);
   var formatter_map = /* @__PURE__ */ new Map();
@@ -28793,12 +28753,12 @@ Error:`,
       update_list = [];
       for (const entry of to_process) {
         const className = entry.className;
-        const $elements = (0, import_jquery11.default)(`.${CSS.escape(className)}`);
+        const $elements = jquery_shim_default(`.${CSS.escape(className)}`);
         if ($elements.length > 0) {
           const time2 = entry.time;
           const rendered_time = render_now(time2, today);
           for (const element of $elements) {
-            render_date_span((0, import_jquery11.default)(element), rendered_time);
+            render_date_span(jquery_shim_default(element), rendered_time);
           }
           maybe_add_update_list_entry({
             needs_update: rendered_time.needs_update,
@@ -29409,9 +29369,8 @@ Error:`,
   }
 
   // web/src/message_parser.ts
-  var import_jquery13 = __toESM(__require("jquery"), 1);
   function is_element_in_message_content(message_content, element_selector) {
-    return (0, import_jquery13.default)(`<div>${message_content}</div>`).find(element_selector).length > 0;
+    return jquery_shim_default(`<div>${message_content}</div>`).find(element_selector).length > 0;
   }
   function message_has_link(message_content) {
     return is_element_in_message_content(message_content, "a");
@@ -29513,12 +29472,6 @@ Error:`,
   function is_resolved(topic_name) {
     return topic_name.startsWith(RESOLVED_TOPIC_PREFIX);
   }
-
-  // web/src/compose_banner.ts
-  var import_jquery15 = __toESM(__require("jquery"), 1);
-
-  // web/src/scroll_util.ts
-  var import_jquery14 = __toESM(__require("jquery"), 1);
 
   // node_modules/lodash-es/isObject.js
   function isObject2(value) {
@@ -30713,12 +30666,6 @@ Error:`,
     unknown_zoom_user: "unknown_zoom_user"
   };
 
-  // web/src/feedback_widget.ts
-  var import_jquery16 = __toESM(__require("jquery"), 1);
-
-  // web/src/loading.ts
-  var import_jquery17 = __toESM(__require("jquery"), 1);
-
   // web/templates/loader.hbs
   var loader_default = `<svg width='100%' height='100%' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-ring">
     <rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect>
@@ -30748,19 +30695,19 @@ Error:`,
     $container.empty();
     if (abs_positioned) {
       const container_id = $container.attr("id");
-      let $inner_container = (0, import_jquery17.default)("<div>").attr("id", `${container_id}_box_container`);
+      let $inner_container = jquery_shim_default("<div>").attr("id", `${container_id}_box_container`);
       $container.append($inner_container);
       $container = $inner_container;
-      $inner_container = (0, import_jquery17.default)("<div>").attr("id", `${container_id}_box`);
+      $inner_container = jquery_shim_default("<div>").attr("id", `${container_id}_box`);
       $container.append($inner_container);
       $container = $inner_container;
     }
-    const $spinner_elem = (0, import_jquery17.default)("<div>").addClass("loading_indicator_spinner").attr("aria-hidden", "true");
+    const $spinner_elem = jquery_shim_default("<div>").addClass("loading_indicator_spinner").attr("aria-hidden", "true");
     $spinner_elem.html(loader_default({ container_id: $outer_container.attr("id") }));
     $container.append($spinner_elem);
     let text_width = 0;
     if (text !== void 0) {
-      const $text_elem = (0, import_jquery17.default)("<span>").addClass("loading_indicator_text");
+      const $text_elem = jquery_shim_default("<span>").addClass("loading_indicator_text");
       $text_elem.text(text);
       $container.append($text_elem);
       if (!abs_positioned) {
@@ -30787,15 +30734,6 @@ Error:`,
     $container.empty();
     $container.css({ width: 0, height: 0 });
   }
-
-  // web/src/settings_ui.ts
-  var import_jquery20 = __toESM(__require("jquery"), 1);
-
-  // web/src/ui_report.ts
-  var import_jquery19 = __toESM(__require("jquery"), 1);
-
-  // web/src/common.ts
-  var import_jquery18 = __toESM(__require("jquery"), 1);
 
   // web/src/settings_ui.ts
   var strings = {
@@ -32276,36 +32214,35 @@ Error:`,
   };
 
   // web/src/message_feed_loading.ts
-  var import_jquery21 = __toESM(__require("jquery"), 1);
   var loading_older_messages_indicator_showing = false;
   var loading_newer_messages_indicator_showing = false;
   function show_loading_older() {
     if (!loading_older_messages_indicator_showing) {
-      (0, import_jquery21.default)(".top-messages-logo").toggleClass("loading", true);
-      make_indicator((0, import_jquery21.default)("#loading_older_messages_indicator"), { abs_positioned: true });
+      jquery_shim_default(".top-messages-logo").toggleClass("loading", true);
+      make_indicator(jquery_shim_default("#loading_older_messages_indicator"), { abs_positioned: true });
       loading_older_messages_indicator_showing = true;
     }
   }
   function hide_loading_older() {
     if (loading_older_messages_indicator_showing) {
-      (0, import_jquery21.default)(".top-messages-logo").toggleClass("loading", false);
-      destroy_indicator((0, import_jquery21.default)("#loading_older_messages_indicator"));
+      jquery_shim_default(".top-messages-logo").toggleClass("loading", false);
+      destroy_indicator(jquery_shim_default("#loading_older_messages_indicator"));
       loading_older_messages_indicator_showing = false;
     }
   }
   function show_loading_newer() {
     if (!loading_newer_messages_indicator_showing) {
-      (0, import_jquery21.default)(".bottom-messages-logo").show();
-      (0, import_jquery21.default)(".bottom-messages-logo").toggleClass("loading", true);
-      make_indicator((0, import_jquery21.default)("#loading_more_indicator"), { abs_positioned: true });
+      jquery_shim_default(".bottom-messages-logo").show();
+      jquery_shim_default(".bottom-messages-logo").toggleClass("loading", true);
+      make_indicator(jquery_shim_default("#loading_more_indicator"), { abs_positioned: true });
       loading_newer_messages_indicator_showing = true;
     }
   }
   function hide_loading_newer() {
     if (loading_newer_messages_indicator_showing) {
-      (0, import_jquery21.default)(".bottom-messages-logo").hide();
-      (0, import_jquery21.default)(".bottom-messages-logo").toggleClass("loading", false);
-      destroy_indicator((0, import_jquery21.default)("#loading_more_indicator"));
+      jquery_shim_default(".bottom-messages-logo").hide();
+      jquery_shim_default(".bottom-messages-logo").toggleClass("loading", false);
+      destroy_indicator(jquery_shim_default("#loading_more_indicator"));
       loading_newer_messages_indicator_showing = false;
     }
   }
@@ -33224,7 +33161,7 @@ Error:`,
           return;
         }
         if (e5.key === "Escape") {
-          (0, import_jquery23.default)("input.poll-option").val("");
+          jquery_shim_default("input.poll-option").val("");
           return;
         }
       });
@@ -33247,7 +33184,7 @@ Error:`,
       $elem.find("ul.poll-widget").html(html);
       $elem.find("button.poll-vote").off("click").on("click", (e5) => {
         e5.stopPropagation();
-        const key = (0, import_jquery23.default)(e5.target).attr("data-key");
+        const key = jquery_shim_default(e5.target).attr("data-key");
         submit_vote(key);
       });
     }
@@ -33273,11 +33210,11 @@ Error:`,
   }
 
   // web/src/showcase.ts
-  var $25 = window.$;
+  var $2 = window.$;
   function initialize() {
     window.location.hash = "";
-    $25("body").children().hide();
-    const $showcase = $25('<div id="gsoc-showcase"></div>').appendTo("body");
+    $2("body").children().hide();
+    const $showcase = $2('<div id="gsoc-showcase"></div>').appendTo("body");
     $showcase.css({
       "position": "fixed",
       "top": "0",
@@ -33305,8 +33242,8 @@ Error:`,
     `);
     const alice_dom = poll_widget().to_dom();
     const bob_dom = poll_widget().to_dom();
-    $25("#alice-view .widget-content").append(alice_dom);
-    $25("#bob-view .widget-content").append(bob_dom);
+    $2("#alice-view .widget-content").append(alice_dom);
+    $2("#bob-view .widget-content").append(bob_dom);
     const virtual_server = {
       clients: [],
       broadcast(data) {
@@ -33321,7 +33258,7 @@ Error:`,
     };
     const setup_user = (selector) => {
       const inbound = activate({
-        $elem: $25(`${selector} .poll-widget`),
+        $elem: $2(`${selector} .poll-widget`),
         callback: (data) => virtual_server.broadcast(data),
         message: { id: 1 },
         extra_data: {}
@@ -33331,7 +33268,6 @@ Error:`,
     setup_user("#alice-view");
     setup_user("#bob-view");
   }
-  return __toCommonJS(showcase_exports);
 })();
 /*! Bundled license information:
 
