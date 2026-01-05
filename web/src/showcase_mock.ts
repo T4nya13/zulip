@@ -2,9 +2,12 @@ declare global {
     interface Window {
         blueslip: any;
         page_params: any;
+        blueslip_stacktrace_default: any;
     }
 }
-// 1. Mock the global Zulip objects
+
+const blueslip_stacktrace = () => "Showcase stacktrace placeholder";
+
 window.blueslip = {
     error: (msg: string, details?: unknown) => console.error("Blueslip Error:", msg, details),
     warn: (msg: string) => console.warn("Blueslip Warn:", msg),
@@ -21,11 +24,8 @@ window.page_params = {
     realm_poll_widgets_enabled: true
 };
 
-// 2. Mock the default export for the stacktrace utility
-// This prevents the "blueslip_stacktrace_default is not a function" error
-const blueslip_stacktrace = () => "Showcase stacktrace placeholder";
-export default blueslip_stacktrace;
+window.blueslip_stacktrace_default = blueslip_stacktrace;
 
-// 3. Export the blueslip object for named imports
 export const blueslip = window.blueslip;
 export const page_params = window.page_params;
+export default blueslip_stacktrace;
