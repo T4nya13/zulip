@@ -70,3 +70,11 @@ run_test("test pink translated_text", () => {
     const actual_html = widget.to_dom().innerHTML;
     assert.equal(actual_html, styled_span("pink", "hello"));
 });
+
+run_test("test blocks ignore comments", () => {
+    const block = html.block({
+        elements: [html.comment("Ignore this")],
+    });
+    assert.equal(block.to_source(""), `{{!-- Ignore this --}}\n`);
+    assert.equal(block.as_raw_html(), "");
+});
