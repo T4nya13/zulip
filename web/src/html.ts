@@ -81,7 +81,7 @@ type PartialSpec = {
     custom_context?: string;
 };
 
-function as_raw_html(frag: DocumentFragment): string {
+function as_raw_html(frag: DocumentFragment | HTMLElement): string {
     const div = document.createElement("div");
     div.append(frag);
     return div.innerHTML;
@@ -686,6 +686,10 @@ export class InputTextTag {
             element.style.backgroundColor = "pink";
         }
         return element;
+    }
+
+    as_raw_html(): string {
+        return as_raw_html(this.to_dom());
     }
 }
 

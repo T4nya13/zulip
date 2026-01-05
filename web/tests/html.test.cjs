@@ -57,6 +57,26 @@ run_test("test pink text_var", () => {
     assert.equal(actual_html, styled_span("pink", "wonky"));
 });
 
+run_test("test pink InputTextTag", () => {
+    const widget = html.input_text_tag({
+        placeholder_value: html.translated_attr_value({
+            translated_string: "hi",
+        }),
+        classes: ["hello"],
+        pink: true,
+    });
+    assert.equal(
+        widget.to_source(""),
+        `<input type="text" class="hello" placeholder="{{t 'hi'}}" />`,
+    );
+    const actual_html = widget.as_raw_html();
+    const style = "style"; // fool the linter
+    assert.equal(
+        actual_html,
+        `<input type="text" class="hello" placeholder="hi" ${style}="background-color: pink;">`,
+    );
+});
+
 run_test("test pink translated_text", () => {
     const widget = html.div_tag({
         children: [
