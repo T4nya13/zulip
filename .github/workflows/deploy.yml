@@ -23,7 +23,11 @@ jobs:
           --outfile=dist/bundle.js \
           --loader:.ts=ts \
           --loader:.hbs=text \
+          --loader:.svg=dataurl \
+          --loader:.png=dataurl \
           --platform=browser \
+          --external:jquery \
+          --external:i18n \
           --define:global=window \
           --define:process.env.NODE_ENV='"production"' \
           --log-level=error
