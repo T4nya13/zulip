@@ -81,7 +81,7 @@ type PartialSpec = {
     custom_context?: string;
 };
 
-function as_raw_html(frag: DocumentFragment | HTMLElement): string {
+function as_raw_html(frag: Node): string {
     const div = document.createElement("div");
     div.append(frag);
     return div.innerHTML;
@@ -704,12 +704,16 @@ class ParenthesizedTag {
         return indent + `(${this.tag.to_source("")})`;
     }
 
-    to_dom(): Node {
-        const element = document.createElement("div");
-        element.append(document.createTextNode("("));
-        element.append(this.tag.to_dom());
-        element.append(document.createTextNode(")"));
-        return element;
+    to_dom(): DocumentFragment {
+        const frag = document.createDocumentFragment();
+        frag.append(document.createTextNode("("));
+        frag.append(this.tag.to_dom());
+        frag.append(document.createTextNode(")"));
+        return frag;
+    }
+
+    as_raw_html(): string {
+        return as_raw_html(this.to_dom());
     }
 }
 
