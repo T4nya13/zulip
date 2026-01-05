@@ -27,6 +27,7 @@ jobs:
           --loader:.png=dataurl \
           --platform=browser \
           --format=iife \
+          --global-name=ZulipShowcase \
           --external:jquery \
           --define:global=window \
           --define:process.env.NODE_ENV='"production"' \

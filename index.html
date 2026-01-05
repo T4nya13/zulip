@@ -23,6 +23,15 @@
             <div id="bob-widget" class="widget-target"></div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <script>
+        window.define = function(name, deps, factory) {
+            if (name === 'jquery') return window.jQuery;
+        };
+    </script>
+
     <script src="dist/bundle.js"></script>
 </body>
 </html>
