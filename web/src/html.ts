@@ -504,40 +504,6 @@ export class Block {
     }
 }
 
-export class SimpleEach {
-    each_label: string;
-    loop_var_partial_label: string;
-    get_blocks: () => Block[];
-
-    constructor(info: SimpleEachSpec) {
-        this.each_label = info.each_label;
-        this.loop_var_partial_label = info.loop_var_partial_label;
-        this.get_blocks = info.get_blocks;
-    }
-
-    to_source(indent: string): string {
-        return (
-            indent +
-            `{{#each ${this.each_label}}}\n` +
-            indent +
-            `    {{> ${this.loop_var_partial_label} .}}\n` +
-            indent +
-            `{{/each}}`
-        );
-    }
-
-    to_dom(): DocumentFragment {
-        const dom = document.createDocumentFragment();
-        for (const block of this.get_blocks()) {
-            dom.append(block.to_dom());
-        }
-        return dom;
-    }
-
-    as_raw_html(): string {
-        return as_raw_html(this.to_dom());
-    }
-}
 
 export class Tag {
     tag: string;
@@ -822,9 +788,6 @@ export function comment(str: string): Comment {
     return new Comment(str);
 }
 
-export function simple_each(info: SimpleEachSpec): SimpleEach {
-    return new SimpleEach(info);
-}
 
 export function trusted_html(html: string): TrustedHtml {
     return new TrustedHtml(html);

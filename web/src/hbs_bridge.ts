@@ -125,3 +125,32 @@ export function if_bool_then_x_else_if_bool_then_y_else_z(
 ): IfElseIfElseBlock {
     return new IfElseIfElseBlock(info);
 }
+
+export class SimpleEach implements h.CustomElement {
+    list_name: string;
+    item_name: string;
+    block: h.Block;
+
+    constructor(info: {list_name: string; item_name: string; block: h.Block}) {
+        this.list_name = info.list_name;
+        this.item_name = info.item_name;
+        this.block = info.block;
+    }
+
+    to_source(indent: string): string {
+        const next_indent = indent + "    ";
+        return (
+            indent + `{{#each ${this.list_name} as |${this.item_name}| }}\n` +
+            this.block.to_source(next_indent) +
+            indent + `{{/each}}`
+        );
+    }
+
+    to_dom(): Node {
+        return document.createComment(`each ${this.list_name}`);
+    }
+}
+
+export function simple_each(info: {list_name: string; item_name: string; block: h.Block}): SimpleEach {
+    return new SimpleEach(info);
+}
