@@ -5,11 +5,11 @@ declare global {
     }
 }
 
-// Mock the stacktrace function for the error logger
+// Mock stacktrace to prevent "is not a function" crash
 const blueslip_stacktrace = () => "Showcase stacktrace placeholder";
 window.blueslip_stacktrace_default = blueslip_stacktrace;
 
-// Mock the error logger
+// Mock the logger to catch Zulip's internal warnings
 window.blueslip = {
     error: (msg: string, details?: unknown) => console.error("Blueslip Error:", msg, details),
     warn: (msg: string) => console.warn("Blueslip Warn:", msg),

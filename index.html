@@ -1,24 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Zulip Poll Widget Showcase</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style>
-        body { margin: 0; padding: 20px; font-family: sans-serif; background: #eee; }
-        #app { display: flex; gap: 40px; justify-content: center; }
-        .user-container { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ccc; width: 400px; min-height: 400px; }
-        h2 { margin: 0; padding: 10px; color: #00abb0; font-size: 1.1rem; border-bottom: 1px solid #eee; }
-        .widget-target { padding: 15px; }
-    </style>
-</head>
 <body>
     <script>
         window.DEVELOPMENT = false;
         window.ZULIP_VERSION = "showcase-demo";
     </script>
 
-    <div id="page_params" data-params='{"is_admin": false, "realm_uri": "http://localhost:9991", "full_name": "Showcase User", "user_id": 1, "realm_poll_widgets_enabled": true}'></div>
+    <div id="page-params" data-params='{"is_admin": false, "realm_uri": "http://localhost:9991", "full_name": "Showcase User", "user_id": 1, "realm_poll_widgets_enabled": true}'></div>
 
     <div id="app">
         <div class="user-container">
@@ -30,6 +16,6 @@
             <div id="bob-widget" class="widget-target"></div>
         </div>
     </div>
+    
     <script src="dist/bundle.js"></script>
 </body>
-</html>
